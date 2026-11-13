@@ -1,9 +1,10 @@
 import io
 import math
+import sys
 import types
 import unittest
 import wave
-from unittest.mock import Mock
+from unittest.mock import Mock, patch
 
 import voice_chat as v
 
@@ -156,5 +157,93 @@ class VoiceTests(unittest.TestCase):
         self.assertEqual(b''.join(audio.output), pcm)
         self.assertTrue(audio.closed)
         with self.assertRaises(v.VoiceError): dev.play(b'odd')
+
+
+class FakeWindowsConsole:
+    def __init__(self, keys=()): self.keys = list(keys)
+    def kbhit(self): return bool(self.keys)
+    def getwch(self): return self.keys.pop(0)
+
+class ConsoleTests(unittest.TestCase):
+    def test_windows_stops_only_on_enter_and_supports_backspace(self):
+        keys = FakeWindowsConsole('x')
+        console = v.ConsoleInput()
+        with patch.object(v.os, 'name', 'nt'), patch.dict(sys.modules, {'msvcrt': keys}):
+            self.assertFalse(console.enter_pressed())
+            keys.keys.extend(['\b', '\r'])
+            self.assertTrue(console.enter_pressed())
+        self.assertEqual(console.pending, [])
+
+    def test_windows_preserves_commands_and_leaves_next_line_queued(self):
+        keys = FakeWindowsConsole('/clear\r/quit\r')
+        console = v.ConsoleInput()
+        with patch.object(v.os, 'name', 'nt'), patch.dict(sys.modules, {'msvcrt': keys}):
+            self.assertTrue(console.enter_pressed())
+            self.assertEqual(console.read_command(''), '/clear')
+            self.assertTrue(console.enter_pressed())
+            self.assertEqual(console.read_command(''), '/quit')
+            self.assertFalse(console.enter_pressed())
+
+    def test_windows_partial_command_survives_recording_timeout(self):
+        keys = FakeWindowsConsole('/qui')
+        console = v.ConsoleInput()
+        with patch.object(v.os, 'name', 'nt'), patch.dict(sys.modules, {'msvcrt': keys}):
+            self.assertFalse(console.enter_pressed())
+        with patch('builtins.input', return_value='t') as prompt:
+            self.assertEqual(console.read_command('Ready > '), '/quit')
+        prompt.assert_called_once_with('Ready > /qui')
+
+    def test_windows_ignores_extended_keys_and_honors_ctrl_c(self):
+        keys = FakeWindowsConsole(['\xe0', 'H', '\r'])
+        console = v.ConsoleInput()
+        with patch.object(v.os, 'name', 'nt'), patch.dict(sys.modules, {'msvcrt': keys}):
+            self.assertTrue(console.enter_pressed())
+            self.assertEqual(console.pending, [])
+            keys.keys.append('\x03')
+            with self.assertRaises(KeyboardInterrupt): console.enter_pressed()
+
+    def test_posix_not_readable_does_not_consume_stdin(self):
+        console = v.ConsoleInput()
+        stdin = Mock()
+        with patch.object(v.os, 'name', 'posix'), patch.object(v.sys, 'stdin', stdin), \
+             patch.object(v.select, 'select', return_value=([], [], [])):
+            self.assertFalse(console.enter_pressed())
+        stdin.readline.assert_not_called()
+
+    def test_posix_preserves_command(self):
+        console = v.ConsoleInput()
+        stdin = io.StringIO('/clear\n')
+        with patch.object(v.os, 'name', 'posix'), patch.object(v.sys, 'stdin', stdin), \
+             patch.object(v.select, 'select', return_value=([stdin], [], [])):
+            self.assertTrue(console.enter_pressed())
+        self.assertEqual(console.read_command(''), '/clear')
+
+    def test_posix_eof_is_not_mistaken_for_enter(self):
+        console = v.ConsoleInput()
+        stdin = io.StringIO('')
+        with patch.object(v.os, 'name', 'posix'), patch.object(v.sys, 'stdin', stdin), \
+             patch.object(v.select, 'select', return_value=([stdin], [], [])):
+            with self.assertRaises(EOFError): console.enter_pressed()
+
+    def test_quit_typed_during_recording_is_processed_before_upload(self):
+        client, stt, response, tts = fake_client()
+        client.close = Mock()
+        keys = FakeWindowsConsole('/quit\r')
+        recorder = Mock()
+        def record(stop):
+            self.assertTrue(stop())
+            return clip()
+        recorder.record.side_effect = record
+        with patch.object(v.os, 'name', 'nt'), patch.dict(sys.modules, {'msvcrt': keys}), \
+             patch.object(v.sys, 'stdin', types.SimpleNamespace(isatty=lambda: True)), \
+             patch('builtins.input', return_value=''), \
+             patch.object(v, 'load_audio', return_value=object()), \
+             patch.object(v, 'AudioDevices', return_value=recorder), \
+             patch.object(v, 'create_client', return_value=client):
+            self.assertEqual(v.main([]), 0)
+        stt.assert_not_called()
+        response.assert_not_called()
+        tts.assert_not_called()
+        client.close.assert_called_once()
 
 if __name__ == '__main__': unittest.main()

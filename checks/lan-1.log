@@ -32,7 +32,7 @@ test_unpowered_model_falls_from_initial_tilt (test_simulation.SimulationChecks.t
 test_controller_with_ideal_mujoco_state (test_controller_integration.IntegrationTest.test_controller_with_ideal_mujoco_state) ... ok
 
 ----------------------------------------------------------------------
-Ran 4 tests in 0.273s
+Ran 4 tests in 0.279s
 
 OK
 01_gia_pi4.stl: faces=7084, extents_mm=[85.0, 76.0, 9.0], volume_mm3=17182.9, nonmanifold_edges=0
@@ -47,6 +47,19 @@ OK
 04_khung_duoi_mau.stl : tái xuất kín, kích thước và thể tích tương đồng
 05_khung_tren_mau.stl : tái xuất kín, kích thước và thể tích tương đồng
 06_vo_dau_mau.stl : tái xuất kín, kích thước và thể tích tương đồng
+test_posix_eof_is_not_mistaken_for_enter (test_voice_chat.ConsoleTests.test_posix_eof_is_not_mistaken_for_enter) ... ok
+test_posix_not_readable_does_not_consume_stdin (test_voice_chat.ConsoleTests.test_posix_not_readable_does_not_consume_stdin) ... ok
+test_posix_preserves_command (test_voice_chat.ConsoleTests.test_posix_preserves_command) ... ok
+test_quit_typed_during_recording_is_processed_before_upload (test_voice_chat.ConsoleTests.test_quit_typed_during_recording_is_processed_before_upload) ... /clear
+Bạn đang trò chuyện với AI; giọng nói phát ra được AI tạo.
+Âm thanh và nội dung hội thoại được gửi đến OpenAI; chương trình không ghi chúng ra đĩa.
+ENTER để ghi; ENTER lần nữa để dừng sớm. /clear xóa lịch sử; /quit thoát.
+Đang ghi, tối đa 8 giây… ENTER để dừng.
+ok
+test_windows_ignores_extended_keys_and_honors_ctrl_c (test_voice_chat.ConsoleTests.test_windows_ignores_extended_keys_and_honors_ctrl_c) ... ok
+test_windows_partial_command_survives_recording_timeout (test_voice_chat.ConsoleTests.test_windows_partial_command_survives_recording_timeout) ... ok
+test_windows_preserves_commands_and_leaves_next_line_queued (test_voice_chat.ConsoleTests.test_windows_preserves_commands_and_leaves_next_line_queued) ... ok
+test_windows_stops_only_on_enter_and_supports_backspace (test_voice_chat.ConsoleTests.test_windows_stops_only_on_enter_and_supports_backspace) ... ok
 test_config_rejects_invalid_values (test_voice_chat.VoiceTests.test_config_rejects_invalid_values) ... ok
 test_failed_calls_do_not_leak_or_commit_history (test_voice_chat.VoiceTests.test_failed_calls_do_not_leak_or_commit_history) ... ok
 test_four_languages_and_auto_transcription_and_reply (test_voice_chat.VoiceTests.test_four_languages_and_auto_transcription_and_reply) ... ok
@@ -59,6 +72,9 @@ test_stop_early_and_overflow_close_stream (test_voice_chat.VoiceTests.test_stop_
 test_wav_rejects_truncation_and_malformed (test_voice_chat.VoiceTests.test_wav_rejects_truncation_and_malformed) ... ok
 
 ----------------------------------------------------------------------
-Ran 10 tests in 0.009s
+Ran 18 tests in 0.009s
 
 OK
+Sẵn sàng > /quit
+/clear
+/quit

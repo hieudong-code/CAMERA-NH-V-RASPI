@@ -269,12 +269,59 @@ class AudioDevices:
             raise VoiceError("Không phát được loa ở 24 kHz. Thử thiết bị ALSA mặc định.") from None
 
 
-def enter_pressed() -> bool:
-    # Pi/Linux terminal in canonical mode: readable when an entire ENTER line arrives.
-    if select.select([sys.stdin], [], [], 0)[0]:
-        sys.stdin.readline()
+class ConsoleInput:
+    """Poll ENTER during a recording without discarding the next terminal command."""
+
+    def __init__(self) -> None:
+        self.pending: list[str] = []
+        self._windows_line: list[str] = []
+        self._extended_key = False
+
+    def read_command(self, prompt: str) -> str:
+        if self.pending:
+            command = self.pending.pop(0)
+            print(prompt + command)
+            return command
+        # A recording can time out after consuming only part of a Windows line.
+        prefix = "".join(self._windows_line)
+        self._windows_line.clear()
+        return prefix + input(prompt + prefix)
+
+    def _completed_line(self, line: str) -> bool:
+        if line.strip():
+            self.pending.append(line)
         return True
-    return False
+
+    def enter_pressed(self) -> bool:
+        if os.name == "nt":
+            # Windows select() accepts sockets, not the console's stdin handle.
+            import msvcrt
+            while msvcrt.kbhit():
+                char = msvcrt.getwch()
+                if self._extended_key:
+                    self._extended_key = False
+                    continue
+                if char in ("\x00", "\xe0"):
+                    self._extended_key = True
+                elif char == "\x03":
+                    raise KeyboardInterrupt
+                elif char in ("\r", "\n"):
+                    line = "".join(self._windows_line)
+                    self._windows_line.clear()
+                    return self._completed_line(line)
+                elif char == "\b":
+                    if self._windows_line:
+                        self._windows_line.pop()
+                elif char.isprintable():
+                    self._windows_line.append(char)
+            return False
+        # POSIX terminal is readable after a complete ENTER line arrives.
+        if select.select([sys.stdin], [], [], 0)[0]:
+            line = sys.stdin.readline()
+            if not line:
+                raise EOFError
+            return self._completed_line(line.rstrip("\r\n"))
+        return False
 
 
 def create_client() -> Any:
@@ -333,8 +380,9 @@ def main(argv: list[str] | None = None) -> int:
                 audio.play(chat.speech(reply))
             return 0
         print("ENTER để ghi; ENTER lần nữa để dừng sớm. /clear xóa lịch sử; /quit thoát.")
+        console = ConsoleInput()
         while True:
-            command = input("Sẵn sàng > ").strip()
+            command = console.read_command("Sẵn sàng > ").strip()
             if command == "/quit":
                 break
             if command == "/clear":
@@ -346,7 +394,11 @@ def main(argv: list[str] | None = None) -> int:
                 continue
             try:
                 print(f"Đang ghi, tối đa {settings.seconds:g} giây… ENTER để dừng.", flush=True)
-                wav_audio = audio.record(enter_pressed)
+                wav_audio = audio.record(console.enter_pressed)
+                if console.pending:
+                    # A command typed during capture must run before any upload.
+                    del wav_audio
+                    continue
                 print("Đã tắt micro. Đang nhận dạng…", flush=True)
                 text = chat.transcribe(wav_audio)
                 del wav_audio

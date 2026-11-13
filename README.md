@@ -1,5 +1,7 @@
 # Robot hai bánh nói chuyện AI — bộ mẫu phát triển
 
+Dùng Windows? Bắt đầu tại [HUONG_DAN_WINDOWS.md](HUONG_DAN_WINDOWS.md).
+
 Bộ dự án khởi đầu cho robot hai bánh tự cân bằng theo ảnh tham khảo: Raspberry Pi 4 (không ESP32), cảm biến và encoder 3,3 V, đầu quay ngang và hội thoại tiếng Việt, Anh, Trung Quan thoại, Nhật. Mọi kích thước, khối lượng và lựa chọn linh kiện đều là phương án mẫu cần đo, đánh giá và hoàn thiện trước khi chế tạo.
 
 **Không phải robot hoàn chỉnh sẵn sàng chạy.** Đầu ra động cơ bị khóa cứng: chương trình chưa được hiệu chuẩn, chưa có watchdog phần cứng được xác nhận, chưa có kiểm chứng thời gian thực hoặc bảo vệ nguồn tái sinh. Tự về sạc là bộ lập kế hoạch thử, chưa có camera marker/contact/charger được tích hợp. CAD là mẫu hình học; thiếu gá motor, trục, bánh, vỏ chịu lực và dock đã thiết kế. Không cấp điện động cơ dựa vào bộ mẫu này. Cần thiết kế, thử nghiệm phần cứng và bộ điều khiển thật trước khi sử dụng.
