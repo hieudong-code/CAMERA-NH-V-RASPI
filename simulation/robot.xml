@@ -1,0 +1,26 @@
+<mujoco model="two-wheel balancing robot concept">
+ <compiler angle="radian"/>
+ <option timestep="0.002" gravity="0 0 -9.81" integrator="implicitfast"/>
+ <default><joint damping="0.01" armature="0.001"/><geom friction="1.2 0.02 0.001" condim="3"/></default>
+ <worldbody>
+  <light pos="0 0 3"/><geom name="floor" type="plane" size="3 3 0.1" rgba=".7 .7 .7 1"/>
+  <body name="body" pos="0 0 .12"><freejoint/>
+   <geom name="torso" type="box" pos="0 0 .18" size=".08 .065 .13" mass="1.4" rgba=".3 .7 .9 1"/>
+   <geom type="box" pos="0 0 .08" size=".07 .06 .025" mass=".4" rgba=".2 .2 .2 1"/>
+   <body name="left_wheel" pos="0 .10 0"><joint name="left_wheel" type="hinge" axis="0 1 0" damping=".01"/>
+    <geom type="cylinder" euler="1.570796 0 0" size=".12 .02" mass=".35" rgba=".1 .1 .1 1"/>
+   </body>
+   <body name="right_wheel" pos="0 -.10 0"><joint name="right_wheel" type="hinge" axis="0 1 0" damping=".01"/>
+    <geom type="cylinder" euler="1.570796 0 0" size=".12 .02" mass=".35" rgba=".1 .1 .1 1"/>
+   </body>
+   <body name="head" pos="0 0 .33"><joint name="head_yaw" type="hinge" axis="0 0 1" range="-0.8 0.8" limited="true" damping=".02"/>
+    <geom type="box" pos="0 0 .03" size=".06 .06 .04" mass=".2" contype="0" conaffinity="0" rgba=".95 .8 .2 1"/>
+   </body>
+  </body>
+ </worldbody>
+ <actuator>
+  <motor name="left_motor" joint="left_wheel" ctrlrange="-1.37 1.37" ctrllimited="true"/>
+  <motor name="right_motor" joint="right_wheel" ctrlrange="-1.37 1.37" ctrllimited="true"/>
+  <position name="head_servo" joint="head_yaw" kp=".8" ctrlrange="-.7 .7" ctrllimited="true"/>
+ </actuator>
+</mujoco>

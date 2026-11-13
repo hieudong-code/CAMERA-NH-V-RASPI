@@ -1,0 +1,64 @@
+test_all_hardware_drive_is_blocked (test_core.BalanceTests.test_all_hardware_drive_is_blocked) ... ok
+test_arm_and_output_saturation (test_core.BalanceTests.test_arm_and_output_saturation) ... ok
+test_bad_gains_or_flags_rejected (test_core.BalanceTests.test_bad_gains_or_flags_rejected) ... ok
+test_default_is_inert_and_cannot_arm (test_core.BalanceTests.test_default_is_inert_and_cannot_arm) ... ok
+test_excessive_tilt_latches (test_core.BalanceTests.test_excessive_tilt_latches) ... ok
+test_fault_does_not_restart_on_valid_data (test_core.BalanceTests.test_fault_does_not_restart_on_valid_data) ... ok
+test_stale_or_nan_causes_fault (test_core.BalanceTests.test_stale_or_nan_causes_fault) ... ok
+test_encoder_complete_cycle_and_reverse (test_core.SensorTests.test_encoder_complete_cycle_and_reverse) ... ok
+test_filter_requires_finite_acceleration (test_core.SensorTests.test_filter_requires_finite_acceleration) ... ok
+test_illegal_transition_recorded (test_core.SensorTests.test_illegal_transition_recorded) ... ok
+test_bad_configuration_rejected (test_dock.DockTests.test_bad_configuration_rejected) ... ok
+test_contact_loss_retries_are_bounded (test_dock.DockTests.test_contact_loss_retries_are_bounded) ... ok
+test_entire_plan_uses_symbolic_outputs (test_dock.DockTests.test_entire_plan_uses_symbolic_outputs) ... ok
+test_false_charging_confirmation_faults_and_loss_faults (test_dock.DockTests.test_false_charging_confirmation_faults_and_loss_faults) ... ok
+test_idle_needs_fresh_battery_contact_and_charging_data (test_dock.DockTests.test_idle_needs_fresh_battery_contact_and_charging_data) ... ok
+test_invalid_time_or_malformed_sensor_values_fail_closed (test_dock.DockTests.test_invalid_time_or_malformed_sensor_values_fail_closed) ... ok
+test_lost_marker_returns_to_search_without_command (test_dock.DockTests.test_lost_marker_returns_to_search_without_command) ... ok
+test_manual_request_when_battery_is_not_low (test_dock.DockTests.test_manual_request_when_battery_is_not_low) ... ok
+test_obstacle_or_unknown_sensor_stops_and_stale_stops (test_dock.DockTests.test_obstacle_or_unknown_sensor_stops_and_stale_stops) ... ok
+test_timeout_while_missing_sensors_faults (test_dock.DockTests.test_timeout_while_missing_sensors_faults) ... ok
+test_configures_and_reads_back_range (test_sensor_diagnostics.ImuConfigurationTests.test_configures_and_reads_back_range) ... ok
+test_failed_write_or_bad_range_fails_closed (test_sensor_diagnostics.ImuConfigurationTests.test_failed_write_or_bad_range_fails_closed) ... ok
+test_gyro_and_gravity_imply_same_positive_rotation (test_sensor_diagnostics.PitchPhysicsTests.test_gyro_and_gravity_imply_same_positive_rotation) ... ok
+
+----------------------------------------------------------------------
+Ran 23 tests in 0.002s
+
+OK
+test_ideal_control_resists_short_push (test_simulation.SimulationChecks.test_ideal_control_resists_short_push) ... ok
+test_ideal_control_resists_small_pitch_and_head_motion (test_simulation.SimulationChecks.test_ideal_control_resists_small_pitch_and_head_motion) ... ok
+test_unpowered_model_falls_from_initial_tilt (test_simulation.SimulationChecks.test_unpowered_model_falls_from_initial_tilt) ... ok
+test_controller_with_ideal_mujoco_state (test_controller_integration.IntegrationTest.test_controller_with_ideal_mujoco_state) ... ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.273s
+
+OK
+01_gia_pi4.stl: faces=7084, extents_mm=[85.0, 76.0, 9.0], volume_mm3=17182.9, nonmanifold_edges=0
+02_tam_servo.stl: faces=1256, extents_mm=[80.0, 55.0, 4.0], volume_mm3=15650.9, nonmanifold_edges=0
+03_tam_thiet_bi.stl: faces=3768, extents_mm=[120.0, 80.0, 4.0], volume_mm3=34333.5, nonmanifold_edges=0
+04_khung_duoi_mau.stl: faces=2044, extents_mm=[130.0, 150.0, 4.0], volume_mm3=70388.2, nonmanifold_edges=0
+05_khung_tren_mau.stl: faces=1700, extents_mm=[130.0, 130.0, 4.0], volume_mm3=60376.9, nonmanifold_edges=0
+06_vo_dau_mau.stl: faces=420, extents_mm=[110.0, 95.0, 70.0], volume_mm3=89882.1, nonmanifold_edges=0
+01_gia_pi4.stl : tái xuất kín, kích thước và thể tích tương đồng
+02_tam_servo.stl : tái xuất kín, kích thước và thể tích tương đồng
+03_tam_thiet_bi.stl : tái xuất kín, kích thước và thể tích tương đồng
+04_khung_duoi_mau.stl : tái xuất kín, kích thước và thể tích tương đồng
+05_khung_tren_mau.stl : tái xuất kín, kích thước và thể tích tương đồng
+06_vo_dau_mau.stl : tái xuất kín, kích thước và thể tích tương đồng
+test_config_rejects_invalid_values (test_voice_chat.VoiceTests.test_config_rejects_invalid_values) ... ok
+test_failed_calls_do_not_leak_or_commit_history (test_voice_chat.VoiceTests.test_failed_calls_do_not_leak_or_commit_history) ... ok
+test_four_languages_and_auto_transcription_and_reply (test_voice_chat.VoiceTests.test_four_languages_and_auto_transcription_and_reply) ... ok
+test_history_bounded_and_reset (test_voice_chat.VoiceTests.test_history_bounded_and_reset) ... ok
+test_legacy_transcription_language_parameter (test_voice_chat.VoiceTests.test_legacy_transcription_language_parameter) ... ok
+test_oversized_and_invalid_pcm_rejected (test_voice_chat.VoiceTests.test_oversized_and_invalid_pcm_rejected) ... ok
+test_play_stream_and_bound (test_voice_chat.VoiceTests.test_play_stream_and_bound) ... ok
+test_record_is_bounded_and_closes (test_voice_chat.VoiceTests.test_record_is_bounded_and_closes) ... ok
+test_stop_early_and_overflow_close_stream (test_voice_chat.VoiceTests.test_stop_early_and_overflow_close_stream) ... ok
+test_wav_rejects_truncation_and_malformed (test_voice_chat.VoiceTests.test_wav_rejects_truncation_and_malformed) ... ok
+
+----------------------------------------------------------------------
+Ran 10 tests in 0.009s
+
+OK
