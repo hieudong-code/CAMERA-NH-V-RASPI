@@ -4,7 +4,7 @@ Bạn có thể xem bản vẽ và thử mô phỏng trước khi mua linh kiệ
 
 ## 1. Giải nén
 
-Tải ZIP từ https://github.com/hieudong-code/CAMERA-NH-V-RASPI/archive/refs/heads/main.zip . Trong Downloads, nhấp phải ZIP → **Extract All**. Mở thư mục `CAMERA-NH-V-RASPI-main`; phải thấy `README.md`, `simulation`, `voice`, `cad`, `software` và `docs`. Không chạy trực tiếp bên trong ZIP.
+Tải ZIP từ https://github.com/hieudong-code/CAMERA-NH-V-RASPI/releases/download/v0.1.0/robot_hai_banh_v0.1.0.zip . Trong Downloads, nhấp phải ZIP → **Extract All**. Mở thư mục `robot_hai_banh_v0.1.0`; phải thấy `README.md`, `simulation`, `voice`, `cad`, `software` và `docs`. Không chạy trực tiếp bên trong ZIP.
 
 Trong File Explorer, mở thư mục này, bấm thanh địa chỉ, gõ `powershell` rồi Enter. Các lệnh sau chạy trong cửa sổ đó.
 

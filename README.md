@@ -1,4 +1,8 @@
-# Robot hai bánh nói chuyện AI — bộ mẫu phát triển
+# robot_hai_banh — v0.1.0
+
+Tên dự án: `robot_hai_banh`. Phiên bản: `0.1.0` (bản mẫu phát triển). Gói tải: `robot_hai_banh_v0.1.0.zip`.
+
+[Tải gói v0.1.0](https://github.com/hieudong-code/CAMERA-NH-V-RASPI/releases/download/v0.1.0/robot_hai_banh_v0.1.0.zip) · [Các thay đổi](CHANGELOG.md)
 
 Dùng Windows? Bắt đầu tại [HUONG_DAN_WINDOWS.md](HUONG_DAN_WINDOWS.md).
 
@@ -36,3 +40,8 @@ Sau khi cài các thư viện mô phỏng, chạy hai lượt tổng thể từ 
 2. Thiết kế và kiểm tra watchdog phần cứng độc lập, bảo vệ tái sinh, BMS, đường sạc và nguồn. Đấu cảm biến mức 3,3 V, đo tín hiệu trước khi nối Pi; không đưa điện áp motor vào GPIO.
 3. Đo và hiệu chuẩn trục IMU, encoder, PWM, độ trễ và mô-men, rồi kiểm thử có giá chống đổ. Kiểm tra hiệu năng khi âm thanh/camera hoạt động; Linux thông thường không bảo đảm thời gian thực.
 4. Tích hợp camera, nhận trạm, xác nhận sạc và đế giữ thân; hiện chưa có bộ nguồn sạc tự động hoàn chỉnh.
+
+
+## Đóng gói theo phiên bản
+
+Sửa `VERSION` và `CHANGELOG.md`, rồi commit các thay đổi. Chạy `python tools/package_release.py` để tạo `dist/robot_hai_banh_v<phiên_bản>.zip` từ đúng các tệp đã commit; gói không chứa thư mục `.git`, khóa hoặc môi trường ảo chưa được theo dõi. Mỗi lần thay nội dung cần tăng phiên bản, không ghi đè một bản phát hành đã tải lên.
